@@ -1,6 +1,12 @@
+import { FunctionComponent } from "react";
 
 
-export const ImagePreview = (props) => {
+interface IProps {
+    onClose: () => void;
+    source: string;
+}
+
+export const ImagePreview: FunctionComponent<IProps> = (props: IProps) => {
     const { onClose, source } = props
 
     return <div className={'flex-row'}>

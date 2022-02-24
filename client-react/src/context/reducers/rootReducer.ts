@@ -1,13 +1,13 @@
 import {
-    ADD_USER_TO_CONNECTION,
     CHANGE_SERVER,
     CONNECTION_FAILED,
-    INCREMENT_ATTEMPTS,
-    RECONNECT, REMOVE_USER_FROM_CONNECTIONS,
-    RESET_HISTORY, RESET_USERS_CONNECTED,
+    RECONNECT,
+    RESET_HISTORY,
+    RESET_USERS_CONNECTED,
     SCROLL_TO_BOTTOM,
     SET_HISTORY,
-    SET_JOINED_SERVERS, SET_LOCAL_PEER,
+    SET_JOINED_SERVERS,
+    SET_LOCAL_PEER,
     SET_MEDIA_DEVICES,
     SET_MODAL,
     SET_REF_TO_BOTTOM,
@@ -20,35 +20,28 @@ import {
     UPDATE_SERVER_LIST,
     UPDATE_VOICE_LIST
 } from '../actions/types'
+import {IAction, IState} from "../../helpers/Interfaces";
 
-
-const INITIAL_STATE = {
+const INITIAL_STATE: IState = {
     username: '',
     sendMessage: () => {},
     receivedMessage: '',
-    connection: {},
+    connection: null,
     connectionStatus: '',
-    connectionAttempts: 0,
-    openModal: () => {},
+    openModal: null,
     onlineUsers: [],
     activeServer: 'Global',
     devices: {},
     serverList: [],
     activeVoiceChannel: null,
     voiceChannels: [],
-    localSDP: null,
-    localPeer: null,
     connectedServers: ['Global'],
-    connectedRTCs: [],
     history: [],
     bottomRef: null
 }
 
-const rootReducer = (state = INITIAL_STATE, action) => {
+const rootReducer = (state = INITIAL_STATE, action: IAction) => {
     switch(action.type) {
-        case ADD_USER_TO_CONNECTION: {
-            return {...state, connectedRTCs: [...state.connectedRTCs, action.payload]}
-        }
         case CHANGE_SERVER: {
             return {...state, activeServer: action.payload}
         }
@@ -58,17 +51,11 @@ const rootReducer = (state = INITIAL_STATE, action) => {
                     content: 'The connection to the server failed, please refresh or try again later'
                 }]}
         }
-        case INCREMENT_ATTEMPTS: {
-            return {...state, connectionAttempts: state.connectionAttempts + 1}
-        }
         case RECONNECT: {
             return {...state, history: [{
                     sender: 'SERVER',
                     content: 'Trying to reconnect...'
                 }]}
-        }
-        case REMOVE_USER_FROM_CONNECTIONS: {
-            return {...state, connectedRTCs: state.connectedRTCs.filter(connection => connection.username !== action.payload)}
         }
         case RESET_HISTORY: {
             return {...state, history: []}

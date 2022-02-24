@@ -6,13 +6,13 @@ import {
     SET_USERNAME,
     UPDATE_HISTORY,
     UPDATE_PLAYER_LIST,
-    UPDATE_SERVER_LIST,
-    SET_MEDIA_DEVICES, UPDATE_VOICE_LIST, SET_RTC_CONNECTION, ADD_USER_TO_CONNECTION, SET_LOCAL_PEER
+    UPDATE_SERVER_LIST, UPDATE_VOICE_LIST
 } from './types'
-import {reconnectAttempts, SOCKET_URL} from "../../helpers/config";
-import Peer from "peerjs";
+import { reconnectAttempts, SOCKET_URL } from "../../helpers/config";
+import { MutableRefObject } from 'react';
+import { IState, TDispatcher } from "../../helpers/Interfaces";
 
-export const initializeSocket = (dispatch, send, connection) => {
+export const initializeSocket = (dispatch: TDispatcher, send: (message: string) => void, connection: WebSocket) => {
     dispatch({
         type: SET_SOCKET,
         payload: {
@@ -22,69 +22,9 @@ export const initializeSocket = (dispatch, send, connection) => {
     })
 }
 
-export const establishRTCConnection = async (app, message) => {
-    const server = { iceServers: [{
-            urls: "stun:stun.services.mozilla.com",
-            username: "louis@mozilla.com",
-            credential: "webrtcdemo"
-        }, {
-            urls: [
-                "stun:stun.example.com",
-                "stun:stun-1.example.com"
-            ]
-        }]
-    }
-
-    // const userRTCConnection = new RTCPeerConnection(server)
-    // app.devices.getTracks().forEach(track => {
-    //     userRTCConnection.addTrack(track)
-    // })
-    // const localOffer = await userRTCConnection.createOffer()
-    // await userRTCConnection.setLocalDescription(localOffer)
-    //
-    // app.sendMessage(JSON.stringify({
-    //     type: 'answer_call',
-    //     user: localOffer
-    // }))
-    //
-    // app.dispatch({
-    //     type: SET_RTC_CONNECTION,
-    //     payload: userRTCConnection.localDescription
-    // })
-    console.log(app)
-    const remotePeer = app.localPeer && app.localPeer.connect(message.user)
-    remotePeer && remotePeer.on('open', () => {
-        remotePeer.send(`hi from ${app.username}!`);
-    });
-}
-
-export const createLocalPeer = (app) => {
-    const localPeer = new Peer(app.username)
-    app.dispatch({
-        type: SET_LOCAL_PEER,
-        payload: localPeer
-    })
-    localPeer.on('connection', (conn) => {
-        conn.on('data', (data) => {
-            // Will print 'hi!'
-            console.log(data);
-        });
-        conn.on('open', () => {
-            conn.send('hello using webrtc!');
-        });
-    });
-}
-
-export const getMediaDevices = async (dispatch) => {
-    await navigator.getUserMedia({audio: true, video: true}, stream => dispatch({
-        type: SET_MEDIA_DEVICES,
-        payload: stream
-    }), error => console.warn(error.message))
-}
-
-export const connectToServer = (app, intervalId, attempts = 0) => {
+export const connectToServer = (app: IState, intervalId: MutableRefObject<any>, attempts = 0) => {
     const socket = new WebSocket(SOCKET_URL)
-    initializeSocket(app.dispatch, (message) => socket.send(message), socket)
+    initializeSocket(app.dispatch, (message: string) => socket.send(message), socket)
     socket.onmessage = event => interpretMessage(app, app.dispatch, JSON.parse(event.data))
     socket.onclose = () => setTimeout(() => {
         if(attempts >= reconnectAttempts) {
@@ -117,7 +57,7 @@ export const connectToServer = (app, intervalId, attempts = 0) => {
     },3000)
 }
 
-export const interpretMessage = async (app, dispatch, message) => {
+export const interpretMessage = async (app: IState, dispatch: TDispatcher, message: any) => {
     message.type !== 'pong' && console.log(app)
     switch (message.type) {
         case 'channel_history': {
@@ -128,17 +68,6 @@ export const interpretMessage = async (app, dispatch, message) => {
             dispatch({
                 type: SCROLL_TO_BOTTOM
             })
-            break
-        }
-        case 'connection_received': {
-            // app.dispatch({
-            //     type: ADD_USER_TO_CONNECTION,
-            //     payload: {
-            //         username: message.username,
-            //         remoteDescription: message.description
-            //     }
-            // })
-
             break
         }
         case 'message' : {
@@ -162,10 +91,6 @@ export const interpretMessage = async (app, dispatch, message) => {
             dispatch({
                 type: SCROLL_TO_BOTTOM
             })
-            break
-        }
-        case 'connect_to_user': {
-            await establishRTCConnection(app, message)
             break
         }
         case 'update_joined_server': {
@@ -207,8 +132,4 @@ export const interpretMessage = async (app, dispatch, message) => {
             console.log(message)
         }
     }
-}
-
-export const interpretRTCMessage = (message) => {
-    console.log(message)
 }

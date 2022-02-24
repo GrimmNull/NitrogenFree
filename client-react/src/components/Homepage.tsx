@@ -1,16 +1,15 @@
-import {useEffect, useRef, useState} from 'react'
-import {connectToServer, createLocalPeer, interpretMessage} from '../context/actions/userActions'
-import {useAppContext} from '../context/hooks/useAppContext'
-import {Chat} from './Chat'
-import {UsersTable} from './UsersTable'
-import {ServerList} from './ServerList'
-import {UPDATE_CONNECTION_STATUS} from "../context/actions/types";
-import {Modal} from './Modal'
-import {VoRTC} from "./VoRTC";
+import React, { useEffect, useRef, useState } from 'react'
+import { connectToServer, interpretMessage } from '../context/actions/userActions'
+import { useAppContext } from '../context/hooks/useAppContext'
+import { Chat } from './Chat'
+import { UsersTable } from './UsersTable'
+import { ServerList } from './ServerList'
+import { UPDATE_CONNECTION_STATUS } from "../context/actions/types";
+import { Modal } from './Modal'
+import { IState } from "../helpers/Interfaces";
 
-
-export const Homepage = () => {
-    const app = useAppContext()
+export const Homepage: React.FC = () => {
+    const app : IState = useAppContext()
     const intervalId = useRef(null)
     const [readyState] = useState(app.connection && app.connection.readyState)
     useEffect(() => {
@@ -31,15 +30,15 @@ export const Homepage = () => {
         if(app.username === '') {
             return
         }
-        createLocalPeer(app)
     }, [app.username])
 
     useEffect(() => {
-        console.log('enter to update interpretmessage')
+        // @ts-ignore
         if(Object.keys(app.connection).length === 0) {
             return
         }
-        console.log('updating interpretmessage')
+
+        // @ts-ignore
         app.connection.onmessage = event => interpretMessage(app, app.dispatch, JSON.parse(event.data))
     }, [app.connection])
 
@@ -48,6 +47,5 @@ export const Homepage = () => {
         <ServerList />
         <UsersTable />
         <Chat />
-        <VoRTC />
     </div>
 }

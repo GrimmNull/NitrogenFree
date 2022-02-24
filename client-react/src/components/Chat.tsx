@@ -1,11 +1,12 @@
-import {useAppContext} from '../context/hooks/useAppContext'
-import {Message} from './Message'
-import {ChatInput} from './ChatInput'
-import {useEffect, useRef} from 'react'
-import {SET_REF_TO_BOTTOM} from "../context/actions/types";
+import { useAppContext } from '../context/hooks/useAppContext'
+import { Message } from './Message'
+import { ChatInput } from './ChatInput'
+import React, {useEffect, useRef } from 'react'
+import { SET_REF_TO_BOTTOM } from "../context/actions/types";
+import { IMessage } from "../helpers/Interfaces";
 
 
-export const Chat = () => {
+export const Chat: React.FC = () => {
     const app = useAppContext()
     const scrollRef = useRef(null)
     useEffect(() => {
@@ -20,7 +21,7 @@ export const Chat = () => {
     return (
         <div className="chat-wrapper">
             <div id="message-table" className="message-table">
-                {app.history && app.history.map((message, index) => <Message key={index} data={message}/>)}
+                {app.history && app.history.map((message : IMessage, index: number) => <Message key={index} data={message}/>)}
                 <div ref={scrollRef} />
             </div>
             <ChatInput />
