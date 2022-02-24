@@ -17,7 +17,7 @@ It's not going to be the next big chatting app, just a passion project :D
 3) Open the ./client-react folder and fill the ```.env``` file by following ```.env.example```
 4) Run or build the webapp by using ```npm run start```/```npm run build```
 
-###Extra steps for the native app:
+##Extra steps for the native app:
 
 5) Install rustc + cargo
 6) Run or build the app by using ```npm run tauri dev```/```npm run tauri build```
