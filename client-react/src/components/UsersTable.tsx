@@ -1,9 +1,9 @@
-import {useAppContext} from '../context/hooks/useAppContext'
-import {CHANGE_SERVER} from '../context/actions/types'
-import {getMediaDevices} from "../context/actions/userActions";
+import { useAppContext } from '../context/hooks/useAppContext'
+import { CHANGE_SERVER } from '../context/actions/types'
+import React from "react";
 
 
-export const UsersTable = () => {
+export const UsersTable: React.FC = () => {
     const app = useAppContext()
 
     const leaveChannel = () => {
@@ -17,15 +17,6 @@ export const UsersTable = () => {
         })
     }
 
-    const joinVoiceChannel = (voiceChannelId) => {
-        Object.keys(app.devices).length === 0 && getMediaDevices(app.dispatch)
-        app.sendMessage(JSON.stringify({
-            type: 'join-voice-channel',
-            id: voiceChannelId,
-            sdp: app.localSDP
-        }))
-    }
-
     return (<div className="user-wrapper">
         <h4>Username:</h4>
         <div id="username" className="username">{app.username}</div>
@@ -34,7 +25,7 @@ export const UsersTable = () => {
         {app.voiceChannels && <div id="voice-channel-list" className="voice-channel-list">
             <h4 className={"voice-channels-label"}>Voice channels:</h4>
             {app.voiceChannels.map((channel, index) => (<div className={"voice-channel-wrapper"} key={index}>
-                <h4 className={"voice-channel-name"} onClick={() => joinVoiceChannel(channel.id)}>
+                <h4 className={"voice-channel-name"} onClick={() => console.log("Honk")}>
                     {channel.name}
                 </h4>
                 <div className={"voice-channel-user-list"}>

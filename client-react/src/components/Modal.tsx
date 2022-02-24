@@ -1,12 +1,12 @@
-import {useEffect, useRef, useState} from 'react'
-import {useAppContext} from '../context/hooks/useAppContext'
-import {CHANGE_SERVER, RESET_HISTORY, SET_MODAL} from '../context/actions/types'
+import { useEffect, useRef, useState } from 'react'
+import { useAppContext } from '../context/hooks/useAppContext'
+import { CHANGE_SERVER, RESET_HISTORY, SET_MODAL } from '../context/actions/types'
 
 
 export const Modal = () => {
     const data = useAppContext()
-    const [visible, setVisible] = useState(false)
-    const [title,setTitle] = useState('Global')
+    const [visible, setVisible] = useState<boolean>(false)
+    const [title,setTitle] = useState<string>('Global')
     const modalTopRef = useRef(null)
     const hideModal = () => {
         setTimeout(() => {
@@ -14,7 +14,7 @@ export const Modal = () => {
             document.body.classList.remove('overflow-hidden')
         }, 150)
     }
-    const showModal = (server) => {
+    const showModal = (server: string) => {
         title && setTitle(server)
         setVisible(true)
         document.body.classList.add('overflow-hidden')
@@ -43,6 +43,7 @@ export const Modal = () => {
     }, [])
 
     useEffect(() => {
+        // @ts-ignore
         modalTopRef.current.scrollTop = 0
     }, [visible])
     return (

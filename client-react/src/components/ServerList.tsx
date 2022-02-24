@@ -1,16 +1,16 @@
-import {useAppContext} from '../context/hooks/useAppContext'
-import {useEffect, useState} from 'react'
-import {CHANGE_SERVER, RESET_HISTORY} from '../context/actions/types'
+import { useAppContext } from '../context/hooks/useAppContext'
+import React, { useEffect, useState } from 'react'
+import { CHANGE_SERVER, RESET_HISTORY } from '../context/actions/types'
 import ReactTooltip from "react-tooltip";
 import { invoke } from '@tauri-apps/api/tauri'
 
-export const ServerList = () => {
+export const ServerList: React.FC = () => {
     const app = useAppContext()
-    const [adding, setAdding] = useState(false)
-    const [message, setMessage] = useState('')
+    const [adding, setAdding] = useState<boolean>(false)
+    const [message, setMessage] = useState<string>('')
 
 
-    const changeServer = (name) => {
+    const changeServer = (name: string) => {
         if (name === app.activeServer || (app.connection && (app.connection.readyState !== WebSocket.OPEN))) {
             return
         }
@@ -31,7 +31,7 @@ export const ServerList = () => {
         })
     }
 
-    const handleKeypress = (e) => {
+    const handleKeypress = (e: { key: string, preventDefault: () => void }) => {
         if (e.key === 'Enter') {
             e.preventDefault();
             if (app.connection && (app.connection.readyState !== WebSocket.OPEN)) {
@@ -62,7 +62,7 @@ export const ServerList = () => {
         invoke && invoke('close_splashscreen')
     }, [])
 
-    const onChange = (event) => {
+    const onChange = (event: { target: { value: React.SetStateAction<string> } }) => {
         setMessage(event.target.value)
     }
 

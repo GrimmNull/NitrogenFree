@@ -1,19 +1,26 @@
-import {useRef, useState} from 'react'
+import React, {useRef, useState} from 'react'
 import {useAppContext} from '../context/hooks/useAppContext'
 import {SCROLL_TO_BOTTOM} from "../context/actions/types"
 import {allowMultipleFiles} from "../helpers/config";
 import {ImagePreview} from "./ImagePreview";
 
-export const ChatInput = () => {
+interface IChatMessage {
+    type: string,
+    content: string,
+    timestamp: Date;
+    attachment?: any;
+}
+
+export const ChatInput: React.FC = () => {
     const app = useAppContext()
-    const [message, setMessage] = useState('')
-    const [image, setImage] = useState(null)
+    const [message, setMessage] = useState<string>('')
+    const [image, setImage] = useState<any>(null)
     const fileInputRef = useRef(null)
-    const handleKeypress = (e) => {
+    const handleKeypress = (e: { key: string, preventDefault: () => void }) => {
         if(e.key === 'Enter'){
             e.preventDefault()
             if (app.connection && (app.connection.readyState === WebSocket.OPEN)) {
-                const messageBody = {
+                const messageBody: IChatMessage = {
                     type: 'message',
                     content: message,
                     timestamp: new Date()
@@ -31,16 +38,17 @@ export const ChatInput = () => {
         }
 
     }
-    const onChange = (event) => {
+    const onChange = (event: { target: { value: React.SetStateAction<string> } }) => {
         setMessage(event.target.value)
     }
 
     const closeImage = () => {
         setImage(null)
+        // @ts-ignore
         fileInputRef && (fileInputRef.current.value = '')
     }
 
-    const fileUploadHandler = (e) => {
+    const fileUploadHandler = (e: { target: { value: string; files: any; }; }) => {
         if(e.target.value === '') {
             return
         }
@@ -48,7 +56,7 @@ export const ChatInput = () => {
         let files = e.target.files;
 
         // Process each file
-        let allFiles = [];
+        let allFiles: any[] = [];
         for (let i = 0; i < files.length; i++) {
 
             let file = files[i];
