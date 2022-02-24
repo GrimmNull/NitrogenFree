@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Splash</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="splash-wrapper">
+    <h2>I'm loading...</h2>
+    <h3>Please wait</h3>
+    <div class="loader-wrapper">
+        <svg version="1.1" id="L3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+             viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+<circle fill="none" stroke="#fff" stroke-width="4" cx="50" cy="50" r="44" style="opacity:0.5;"/>
+            <circle fill="#fff" stroke="#7b2cbf" stroke-width="3" cx="8" cy="54" r="6" >
+    <animateTransform
+            attributeName="transform"
+            dur="2s"
+            type="rotate"
+            from="0 50 48"
+            to="360 50 52"
+            repeatCount="indefinite" />
+
+  </circle>
+</svg>
+    </div>
+
+</div>
+</body>
+<style>
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #7b2cbf;
+        height:100vh;
+        width: 100vw;
+        margin: 0;
+    }
+
+    * {
+        color: #7b2cbf;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    .splash-wrapper {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 99.5vw;
+        height: 99vh;
+        background: #0e0e0e;
+    }
+
+    h2 {
+        margin-bottom: 0.6vw;
+    }
+
+    h3 {
+        margin-top: 0;
+        margin-bottom: 0.6vw;
+    }
+
+    .loader-wrapper {
+        width: 5vw;
+        height: 5vw;
+    }
+</style>
+</html>

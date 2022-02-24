@@ -1,8 +1,8 @@
 import {useAppContext} from '../context/hooks/useAppContext'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {CHANGE_SERVER, RESET_HISTORY} from '../context/actions/types'
 import ReactTooltip from "react-tooltip";
-
+import { invoke } from '@tauri-apps/api/tauri'
 
 export const ServerList = () => {
     const app = useAppContext()
@@ -57,6 +57,11 @@ export const ServerList = () => {
         }
 
     }
+
+    useEffect(() => {
+        invoke && invoke('close_splashscreen')
+    }, [])
+
     const onChange = (event) => {
         setMessage(event.target.value)
     }

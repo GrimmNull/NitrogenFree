@@ -99,7 +99,7 @@ export const ChatInput = () => {
                     source={image && image.base64}
                 />
             </div>
-            <input onChange={onChange} onKeyPress={handleKeypress} id="message-input" className="message-input" value={message} placeholder='Send some Christmas vibes...'/>
+            <input onChange={onChange} onKeyPress={handleKeypress} id="message-input" className="message-input" value={message} placeholder='Send some chill vibes...'/>
         </div>
     </div>)
 }
