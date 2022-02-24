@@ -28,7 +28,7 @@ const INITIAL_STATE: IState = {
     receivedMessage: '',
     connection: null,
     connectionStatus: '',
-    openModal: null,
+    openModal: (name) => {},
     onlineUsers: [],
     activeServer: 'Global',
     devices: {},

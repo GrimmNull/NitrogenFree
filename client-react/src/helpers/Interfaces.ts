@@ -5,7 +5,7 @@ export interface IState {
     receivedMessage: string;
     connection: WebSocket | null;
     connectionStatus: string,
-    openModal: ((name: string) => void) | null;
+    openModal: (name: string) => void;
     onlineUsers: string[];
     activeServer: string;
     devices: object;
