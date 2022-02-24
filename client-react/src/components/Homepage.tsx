@@ -33,12 +33,10 @@ export const Homepage: React.FC = () => {
     }, [app.username])
 
     useEffect(() => {
-        // @ts-ignore
-        if(Object.keys(app.connection).length === 0) {
+        if(!app.connection) {
             return
         }
 
-        // @ts-ignore
         app.connection.onmessage = event => interpretMessage(app, app.dispatch, JSON.parse(event.data))
     }, [app.connection])
 

@@ -8,7 +8,7 @@ export const useReducerWithMiddleware = (
     middlewareList: ((state: IState, dispatch: TDispatcher, action: IAction) => IState)[] | any[]
 ) => {
     const [state, dispatch] = useReducer(reducer, initialState)
-    const dispatchWithMiddleware = (action: IAction) => {
+    const dispatchWithMiddleware: (action: IAction) => void = (action: IAction) => {
         middlewareList.map(middleware => middleware(state, dispatch, action))
         dispatch(action)
     }

@@ -7,6 +7,7 @@ export const AppContext = createContext<IState>(initialState)
 
 export const AppContextProvider: React.FC = ({children}) => {
     const [state, dispatch] = useReducerWithMiddleware(rootReducer, initialState, [])
+
     // @ts-ignore
     return (<AppContext.Provider value={{...state, dispatch}}>
         {children}

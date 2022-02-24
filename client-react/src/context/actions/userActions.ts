@@ -58,7 +58,6 @@ export const connectToServer = (app: IState, intervalId: MutableRefObject<any>, 
 }
 
 export const interpretMessage = async (app: IState, dispatch: TDispatcher, message: any) => {
-    message.type !== 'pong' && console.log(app)
     switch (message.type) {
         case 'channel_history': {
             dispatch({
